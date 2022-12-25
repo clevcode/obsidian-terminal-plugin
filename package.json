@@ -1,0 +1,34 @@
+{
+  "name": "obsidian-clevcode-plugin",
+  "version": "1.0.0",
+  "description": "Obsidian Plugin developed by ClevCode",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+    "version": "node version-bump.mjs && git add manifest.json versions.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^16.13.2",
+    "@types/shell-quote": "^1.7.1",
+    "@typescript-eslint/eslint-plugin": "5.29.0",
+    "@typescript-eslint/parser": "5.29.0",
+    "builtin-modules": "3.3.0",
+    "esbuild": "0.14.47",
+    "obsidian": "latest",
+    "tslib": "2.4.0",
+    "typescript": "4.7.4"
+  },
+  "dependencies": {
+    "esbuild-loader": "^2.20.0",
+    "shell-quote": "^1.7.4",
+    "xterm": "^5.1.0",
+    "xterm-addon-fit": "^0.7.0",
+    "xterm-addon-search": "^0.11.0",
+    "xterm-addon-web-links": "^0.8.0",
+    "xterm-addon-webgl": "^0.14.0"
+  }
+}

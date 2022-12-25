@@ -1,0 +1,10 @@
+{
+	"id": "obsidian-terminal-plugin",
+	"name": "Terminal Plugin",
+	"version": "1.0.0",
+	"minAppVersion": "1.0.0",
+	"description": "Terminal Plugin",
+	"author": "Joel Eriksson",
+	"authorUrl": "https://clevcode.org",
+	"isDesktopOnly": true
+}
