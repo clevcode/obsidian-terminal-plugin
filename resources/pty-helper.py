@@ -43,6 +43,7 @@ def pty_fork(path, argv=None, envp=None):
         argv = [os.path.basename(path)]
     if not envp:
         envp = os.environ
+        envp['TERM'] = 'xterm-256color'
     pid, fd = pty.fork()
     if pid == 0:
         # Anything printed here will show up in the pty
