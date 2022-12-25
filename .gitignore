@@ -1,4 +1,6 @@
+*.zip
 main.js
 Makefile
 node_modules/
 package-lock.json
+obsidian-terminal-plugin/
