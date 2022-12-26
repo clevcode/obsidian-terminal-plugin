@@ -1,6 +1,6 @@
 {
   "name": "obsidian-clevcode-plugin",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Obsidian Plugin developed by ClevCode",
   "main": "main.js",
   "scripts": {
