@@ -2,6 +2,8 @@
 
 This is a Terminal plugin for Obsidian (https://obsidian.md).
 
+![[screenshot.png]]
+
 ## How to use
 
 - Clone this repo
