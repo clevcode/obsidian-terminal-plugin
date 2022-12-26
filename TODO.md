@@ -17,9 +17,17 @@ Configurable options per-command should include:
     - Current filename
 - Toggle for allowing global hotkeys within the terminal
     - If not, configurable hotkey for shifting focus to Obsidian
+- Font
+- Font size
+- Environment variables
+- The initial size of terminal
+    - Height for down split
+    - Width for right split
+    - Width + height for popout window
 
-Other basic stuff:
-- Configure font size
-- Dynamic changing of font size
+Defaults should be possible to set for all of these options,
+so that you only need to configure the ones you want to modify specifically for the command in question.
+
+Perhaps even support different command "groups" with different default settings.
 
 Note that my time is very limited, so contributing to the development of this plugin is very welcome. I think there is a lot of potential to really combine the power of Obsidian with the power of traditional command line based tools and editors.
