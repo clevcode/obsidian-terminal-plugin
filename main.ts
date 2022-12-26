@@ -24,6 +24,12 @@ import { Writable } from 'stream'
 import * as child_process from 'child_process'
 import * as quote from 'shell-quote'
 import * as path from 'path'
+import * as fs from 'fs'
+
+import { resourceBlob, resourceHash } from 'resources'
+
+const decompress = require('decompress')
+const decompressTargz = require('decompress-targz')
 
 const TERMINAL_VIEW_TYPE = 'terminal'
 const TERMEDIT_VIEW_TYPE = 'termedit'
@@ -44,6 +50,11 @@ const DEFAULT_SETTINGS: TerminalPluginSettings = {
     font: 'Roboto Mono Nerd Font',
     hideTabGroupHeader: true,
     hideStatusBar: false
+}
+
+async function extractTarGz(base64TarGz: string, destinationPath: string) {
+    const tarGzBuffer = Buffer.from(base64TarGz, 'base64')
+    await decompress(tarGzBuffer, destinationPath, { plugins: [decompressTargz()] })
 }
 
 export default class TerminalPlugin extends Plugin {
@@ -67,16 +78,6 @@ export default class TerminalPlugin extends Plugin {
 
     async onload() {
         await this.loadSettings()
-        this.addCommand({
-            id: 'open-terminal',
-            name: 'Open Terminal',
-            callback: () => this.openTerminal()
-        })
-        this.addCommand({
-            id: 'open-terminal-editor',
-            name: 'Edit file in Terminal editor',
-            callback: () => this.openEditor()
-        })
 
         const adapter = this.app.vault.adapter
         if (! (adapter instanceof FileSystemAdapter))
@@ -87,6 +88,24 @@ export default class TerminalPlugin extends Plugin {
         if (manifestPath == null)
             throw new Error('Could not determine manifest directory')
         this.manifestPath = manifestPath
+
+        let resourcesUnpacked: boolean = false
+        try {
+            // Extract resources if they are not already extracted
+            const data = fs.readFileSync(
+                path.join(
+                    this.vaultPath,
+                    this.manifestPath,
+                    'resources',
+                    'CHECKSUM'
+                ), 'utf8'
+            );
+            const checksum = data.trim();
+            if (checksum == resourceHash)
+                resourcesUnpacked = true
+        } catch { }
+        if (! resourcesUnpacked)
+            await extractTarGz(resourceBlob, path.join(this.vaultPath, this.manifestPath))
 
         const fontPath = path.join(manifestPath, 'resources', 'Roboto Mono Nerd Font Complete.ttf')
         const fontURL = app.vault.adapter.getResourcePath(fontPath)
@@ -102,6 +121,17 @@ export default class TerminalPlugin extends Plugin {
         if (this.settings.hideStatusBar)
             // @ts-ignore
             document.querySelector('div[class="status-bar"]').style.display = 'none'
+
+        this.addCommand({
+            id: 'open-terminal',
+            name: 'Open Terminal',
+            callback: () => this.openTerminal()
+        })
+        this.addCommand({
+            id: 'open-terminal-editor',
+            name: 'Edit file in Terminal editor',
+            callback: () => this.openEditor()
+        })
     }
 
     async loadSettings() {

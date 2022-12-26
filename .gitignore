@@ -1,6 +1,10 @@
 *.zip
 main.js
 Makefile
+resources.ts
 node_modules/
+resources.tar.gz
 package-lock.json
+resources/CHECKSUM
 obsidian-terminal-plugin/
+

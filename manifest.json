@@ -1,7 +1,7 @@
 {
 	"id": "obsidian-terminal-plugin",
 	"name": "Terminal Plugin",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"minAppVersion": "1.0.0",
 	"description": "Terminal Plugin",
 	"author": "Joel Eriksson",
