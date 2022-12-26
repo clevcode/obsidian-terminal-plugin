@@ -1,7 +1,7 @@
 {
-  "name": "obsidian-clevcode-plugin",
-  "version": "1.0.4",
-  "description": "Obsidian Plugin developed by ClevCode",
+  "name": "obsidian-terminal-plugin",
+  "version": "1.0.5",
+  "description": "Obsidian Terminal Plugin",
   "main": "main.js",
   "scripts": {
     "dev": "node esbuild.config.mjs",

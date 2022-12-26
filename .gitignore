@@ -1,4 +1,5 @@
 *.zip
+main.js
 Makefile
 resources.ts
 node_modules/
