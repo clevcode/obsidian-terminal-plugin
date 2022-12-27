@@ -61,6 +61,8 @@ while True:
     if fd in rfds:
         try:
             buf = os.read(fd, 32768)
+            if len(buf) == 0:
+                break # EOF from PTY
             sys.stdout.buffer.write(buf)
             sys.stdout.buffer.flush()
         except OSError as e:
@@ -73,6 +75,8 @@ while True:
     if 0 in rfds:
         try:
             buf = os.read(0, 32768)
+            if len(buf) == 0:
+                break # EOF from user
             proc.write(buf)
             proc.flush()
         except OSError as e:
@@ -83,7 +87,10 @@ while True:
     if 3 in rfds:
         try:
             winsize = os.read(3, 8)
-            fcntl.ioctl(fd, termios.TIOCSWINSZ, winsize)
+            if len(winsize) == 0:
+                fds = fds[:2] # Remove fd 3 from fds
+            elif len(winsize) == 8:
+                fcntl.ioctl(fd, termios.TIOCSWINSZ, winsize)
         except OSError as e:
             if e.errno in (errno.EINTR, errno.EAGAIN):
                 continue
