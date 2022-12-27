@@ -218,7 +218,7 @@ class TerminalViewHelper {
         this.contentEl.setAttribute
         this.contentEl.appendChild(iframe)
 
-        this.showTabGroupHeader(false)
+        this.showTabGroupHeader(! this.plugin.settings.hideTabGroupHeader)
         this.showNavigation(false)
     }
 
