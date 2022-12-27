@@ -2,7 +2,7 @@
 
 This is a Terminal plugin for Obsidian (https://obsidian.md).
 
-![[screenshot.png]]
+![Screenshot](screenshot.png)
 
 ## How to use
 
