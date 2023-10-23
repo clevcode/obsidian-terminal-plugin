@@ -107,7 +107,7 @@ export default class TerminalPlugin extends Plugin {
         if (! resourcesUnpacked)
             await extractTarGz(resourceBlob, path.join(this.vaultPath, this.manifestPath))
 
-        const fontPath = path.join(manifestPath, 'resources', 'Roboto Mono Nerd Font Complete.ttf')
+        const fontPath = path.join(manifestPath, 'resources', 'RobotoMonoNerdFont-Regular.ttf')
         const fontURL = app.vault.adapter.getResourcePath(fontPath)
         const robotoMono = new FontFace('Roboto Mono Nerd Font', `url(${fontURL})`)
         await robotoMono.load()
