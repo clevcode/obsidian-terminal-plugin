@@ -48,7 +48,7 @@ interface TerminalPluginSettings {
 }
 
 const DEFAULT_SETTINGS: TerminalPluginSettings = {
-    editor: 'lvim || nvim || vim || nano || pico',
+    editor: '/usr/bin/nvim',
     font: 'RobotoMono Nerd Font',
     hideTabGroupHeader: true,
     hideStatusBar: false
