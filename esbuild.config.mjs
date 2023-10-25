@@ -33,7 +33,6 @@ esbuild.build({
         '@lezer/lr',
         ...builtins],
     format: 'cjs',
-    watch: !prod,
     target: 'es2020',
     logLevel: "info",
     sourcemap: prod ? false : 'inline',

@@ -16,8 +16,10 @@ import {
 
 import { Terminal } from 'xterm'
 import { FitAddon } from 'xterm-addon-fit'
+import { WebglAddon } from 'xterm-addon-webgl';
 import { SearchAddon } from 'xterm-addon-search'
 import { WebLinksAddon } from 'xterm-addon-web-links'
+import { LigaturesAddon } from 'xterm-addon-ligatures'
 
 import { Writable } from 'stream'
 
@@ -46,8 +48,8 @@ interface TerminalPluginSettings {
 }
 
 const DEFAULT_SETTINGS: TerminalPluginSettings = {
-    editor: '/usr/bin/nvim +":set showtabline=0"',
-    font: 'Roboto Mono Nerd Font',
+    editor: 'lvim || nvim || vim || nano || pico',
+    font: 'RobotoMono Nerd Font',
     hideTabGroupHeader: true,
     hideStatusBar: false
 }
@@ -109,7 +111,7 @@ export default class TerminalPlugin extends Plugin {
 
         const fontPath = path.join(manifestPath, 'resources', 'RobotoMonoNerdFont-Regular.ttf')
         const fontURL = app.vault.adapter.getResourcePath(fontPath)
-        const robotoMono = new FontFace('Roboto Mono Nerd Font', `url(${fontURL})`)
+        const robotoMono = new FontFace('RobotoMono Nerd Font', `url(${fontURL})`)
         await robotoMono.load()
         // @ts-ignore
         document.fonts.add(robotoMono)
@@ -248,18 +250,28 @@ class TerminalViewHelper {
           theme: { background: backgroundColor },
         })
 
-        this.fitAddon = new FitAddon()
+        const fitAddon = this.fitAddon = new FitAddon()
+        const webglAddon = new WebglAddon()
         const searchAddon = new SearchAddon()
         const weblinksAddon = new WebLinksAddon()
+        const ligaturesAddon = new LigaturesAddon()
 
         const el = contentDocument.getElementById('terminal')
         if (el == null)
             throw Error('iframe #terminal not found')
 
-        term.open(el)
-        term.loadAddon(this.fitAddon)
+        webglAddon.onContextLoss(() => webglAddon.dispose());
+
+        term.loadAddon(fitAddon);
+        term.onRender(() => fitAddon.fit());
+
+        term.loadAddon(fitAddon)
         term.loadAddon(searchAddon)
+        term.loadAddon(webglAddon)
         term.loadAddon(weblinksAddon)
+
+        term.open(el)
+        term.loadAddon(ligaturesAddon)
 
         let ptyHelper = child_process.spawn(this.helperPath, this.cmd, {
             cwd: this.cwd,
@@ -311,6 +323,7 @@ class TerminalViewHelper {
     }
 
     async onClose() {
+        // TODO: Disconnect observers!
         this.ptyHelper.kill()
         this.term?.dispose()
     }
